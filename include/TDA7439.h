@@ -1,0 +1,140 @@
+#pragma once
+
+#include "I2C_Polling.h"
+
+#define TDA7439_I2C_ADDRESS 0x88
+
+#ifndef TDA7439_TIMEOUT
+#define TDA7439_TIMEOUT 1000
+#endif
+
+typedef enum TDA7439StereoInput {
+    TDA7439_INPUT_1 = 0x03,
+    TDA7439_INPUT_2 = 0x02,
+    TDA7439_INPUT_3 = 0x01,
+    TDA7439_INPUT_4 = 0x00,
+} TDA7439StereoInput;
+
+typedef enum TDA7439GainValue {
+    TDA7439_GAIN_0dB = 0x00,    // min gain
+    TDA7439_GAIN_2dB = 0x01,
+    TDA7439_GAIN_4dB = 0x02,
+    TDA7439_GAIN_6dB = 0x03,
+    TDA7439_GAIN_8dB = 0x04,
+    TDA7439_GAIN_10dB = 0x05,
+    TDA7439_GAIN_12dB = 0x06,
+    TDA7439_GAIN_14dB = 0x07,
+    TDA7439_GAIN_16dB = 0x08,
+    TDA7439_GAIN_18dB = 0x09,
+    TDA7439_GAIN_20dB = 0x0A,
+    TDA7439_GAIN_22dB = 0x0B,
+    TDA7439_GAIN_24dB = 0x0C,
+    TDA7439_GAIN_26dB = 0x0D,
+    TDA7439_GAIN_28dB = 0x0E,
+    TDA7439_GAIN_30dB = 0x0F,   // max gain
+} TDA7439GainValue;
+
+typedef enum TDA7439VolumeValue {
+    TDA7439_VOLUME_0dB = 0x00,          // max volume
+    TDA7439_VOLUME_MINUS_1dB = 0x01,
+    TDA7439_VOLUME_MINUS_2dB = 0x02,
+    TDA7439_VOLUME_MINUS_3dB = 0x03,
+    TDA7439_VOLUME_MINUS_4dB = 0x04,
+    TDA7439_VOLUME_MINUS_5dB = 0x05,
+    TDA7439_VOLUME_MINUS_6dB = 0x06,
+    TDA7439_VOLUME_MINUS_7dB = 0x07,
+    TDA7439_VOLUME_MINUS_8dB = 0x08,
+    TDA7439_VOLUME_MINUS_16dB = 0x10,
+    TDA7439_VOLUME_MINUS_24dB = 0x18,
+    TDA7439_VOLUME_MINUS_32dB = 0x20,
+    TDA7439_VOLUME_MINUS_40dB = 0x28,   // min volume
+    TDA7439_VOLUME_MUTE = 0x38,
+} TDA7439VolumeValue;
+
+typedef enum TDA7439BassValue {
+    TDA7439_BASS_MINUS_14dB = 0x00,   // min bass gain
+    TDA7439_BASS_MINUS_12dB = 0x01,
+    TDA7439_BASS_MINUS_10dB = 0x02,
+    TDA7439_BASS_MINUS_8dB = 0x03,
+    TDA7439_BASS_MINUS_6dB = 0x04,
+    TDA7439_BASS_MINUS_4dB = 0x05,
+    TDA7439_BASS_MINUS_2dB = 0x06,
+    TDA7439_BASS_0dB = 0x07,
+    TDA7439_BASS_2dB = 0x0E,
+    TDA7439_BASS_4dB = 0x0D,
+    TDA7439_BASS_6dB = 0x0C,
+    TDA7439_BASS_8dB = 0x0B,
+    TDA7439_BASS_10dB = 0x0A,
+    TDA7439_BASS_12dB = 0x09,
+    TDA7439_BASS_14dB = 0x08,   // max bass gain
+} TDA7439BassValue;
+
+typedef enum TDA7439MidRangeValue {
+    TDA7439_MID_RANGE_MINUS_14dB = 0x00,   // min mid-range gain value
+    TDA7439_MID_RANGE_MINUS_12dB = 0x01,
+    TDA7439_MID_RANGE_MINUS_10dB = 0x02,
+    TDA7439_MID_RANGE_MINUS_8dB = 0x03,
+    TDA7439_MID_RANGE_MINUS_6dB = 0x04,
+    TDA7439_MID_RANGE_MINUS_4dB = 0x05,
+    TDA7439_MID_RANGE_MINUS_2dB = 0x06,
+    TDA7439_MID_RANGE_0dB = 0x07,
+    TDA7439_MID_RANGE_2dB = 0x0E,
+    TDA7439_MID_RANGE_4dB = 0x0D,
+    TDA7439_MID_RANGE_6dB = 0x0C,
+    TDA7439_MID_RANGE_8dB = 0x0B,
+    TDA7439_MID_RANGE_10dB = 0x0A,
+    TDA7439_MID_RANGE_12dB = 0x09,
+    TDA7439_MID_RANGE_14dB = 0x08,   // max mid-range gain value
+} TDA7439MidRangeValue;
+
+typedef enum TDA7439TrebleValue {
+    TDA7439_TREBLE_MINUS_14dB = 0x00,   // min treble gain value
+    TDA7439_TREBLE_MINUS_12dB = 0x01,
+    TDA7439_TREBLE_MINUS_10dB = 0x02,
+    TDA7439_TREBLE_MINUS_8dB = 0x03,
+    TDA7439_TREBLE_MINUS_6dB = 0x04,
+    TDA7439_TREBLE_MINUS_4dB = 0x05,
+    TDA7439_TREBLE_MINUS_2dB = 0x06,
+    TDA7439_TREBLE_0dB = 0x07,
+    TDA7439_TREBLE_2dB = 0x0E,
+    TDA7439_TREBLE_4dB = 0x0D,
+    TDA7439_TREBLE_6dB = 0x0C,
+    TDA7439_TREBLE_8dB = 0x0B,
+    TDA7439_TREBLE_10dB = 0x0A,
+    TDA7439_TREBLE_12dB = 0x09,
+    TDA7439_TREBLE_14dB = 0x08,   // max treble gain value
+} TDA7439TrebleValue;
+
+typedef enum TDA7439SpeakerAttenuationValue {
+    TDA7439_ATTENUATION_0dB = 0x00,
+    TDA7439_ATTENUATION_1dB = 0x01,
+    TDA7439_ATTENUATION_2dB = 0x02,
+    TDA7439_ATTENUATION_3dB = 0x03,
+    TDA7439_ATTENUATION_4dB = 0x04,
+    TDA7439_ATTENUATION_5dB = 0x05,
+    TDA7439_ATTENUATION_6dB = 0x06,
+    TDA7439_ATTENUATION_7dB = 0x07,
+    TDA7439_ATTENUATION_8dB = 0x08,
+    TDA7439_ATTENUATION_16dB = 0x10,
+    TDA7439_ATTENUATION_24dB = 0x18,
+    TDA7439_ATTENUATION_32dB = 0x20,
+    TDA7439_ATTENUATION_40dB = 0x28,
+    TDA7439_ATTENUATION_48dB = 0x30,
+    TDA7439_ATTENUATION_56dB = 0x38,
+    TDA7439_ATTENUATION_64dB = 0x80,
+    TDA7439_ATTENUATION_72dB = 0x48,
+    TDA7439_ATTENUATION_MUTE = 0x78,
+} TDA7439SpeakerAttenuationValue;
+
+
+I2CStatus initTDA7439(I2C_TypeDef *I2Cx);
+
+void setStereoInputTDA7439(TDA7439StereoInput input);
+void setInputGainTDA7439(TDA7439GainValue gain);
+void setVolumeTDA7439(TDA7439VolumeValue volume);
+void setBassGainTDA7439(TDA7439BassValue bass);
+void setMiddleGainTDA7439(TDA7439MidRangeValue midRange);
+void setTrebleGainTDA7439(TDA7439TrebleValue treble);
+void setRightSpeakerAttenuationTDA7439(TDA7439SpeakerAttenuationValue attenuation);
+void setLeftSpeakerAttenuationTDA7439(TDA7439SpeakerAttenuationValue attenuation);
+void muteTDA7439();
