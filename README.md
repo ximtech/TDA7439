@@ -1,6 +1,6 @@
 # TDA7439
 
-***STM32*** LL(Low-Layer) C library. TDA7439 is a three-band digitally-controlled audio processor
+***STM32*** LL(Low-Layer) C library. TDA7439 is a three-band digitally-controlled audio processor.\
 See datasheet: [link](https://www.st.com/resource/en/datasheet/cd00004906.pdf)
 
 ### Features
